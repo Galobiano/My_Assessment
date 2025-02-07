@@ -13,12 +13,10 @@ function Dashboard() {
   };
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Dashboard content</p>
-      <p>Welcome to my dashboard</p>
-      <ProductTable />
+    <div className = "ml-[200px]">
+      <h1 className='text-right mr-[100px] mt-[20px]'>Dashboard</h1>
       <button onClick={handleLogout}>Logout</button>
+      <ProductTable  />
     </div>
   );
 }
