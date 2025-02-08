@@ -82,14 +82,14 @@ const ProductTable = () => {
 
     const handleAddProductClick = () => {
         setNewProduct({ title: '', price: '', description: '', images: [] });
-        setShowAddProductForm(true);  // Show the form
+        setShowAddProductForm(true);  
     };
 
     const handleAddProductSubmit = async (event) => {
         event.preventDefault();
         try {
             if (newProduct.id) {
-                // Updating an existing product
+               
                 const updatedProduct = await updateProduct(newProduct);
                 setProducts((prevProducts) =>
                     prevProducts.map((product) =>
@@ -101,7 +101,7 @@ const ProductTable = () => {
                         product.id === updatedProduct.id ? updatedProduct : product
                     );
                 
-                    // If the search term is not empty, filter again to reflect updates
+                    
                     if (searchTerm.trim()) {
                         return updatedList.filter((product) =>
                             product.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -113,7 +113,7 @@ const ProductTable = () => {
                 
             } 
             else {
-                // Adding a new product
+                
                 const addedProduct = await addProduct(newProduct);
                 setProducts((prevProducts) => [addedProduct, ...prevProducts]);
                 setFilteredProducts((prevProducts) => [addedProduct, ...prevProducts]);
@@ -151,7 +151,7 @@ const ProductTable = () => {
             
             await deleteProduct(productId);
     
-            // Remove from state only if it was successful
+            
             setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
             setFilteredProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
     
@@ -167,14 +167,14 @@ const ProductTable = () => {
 
     const handleUpdateProductClick = (product) => {
         setNewProduct({
-            id: product.id, // Dapat may ID para ma-detect na update ito
+            id: product.id, 
             title: product.title,
             price: product.price,
             description: product.description,
             images: product.images,
         });
     
-        setShowAddProductForm(true); // Ipakita ang update form
+        setShowAddProductForm(true); 
     };
     
 
@@ -256,8 +256,8 @@ const ProductTable = () => {
         placeholder="Search products"
         value={searchTerm}
         onChange={handleSearchChange}
-        className="p-2 border border-gray-300 rounded-md ml-[16%] w-[50%] pr-10"  // Added pr-10 for padding to accommodate the icon
-        disabled={showAddProductForm}  // Disable search when adding product
+        className="p-2 border border-gray-300 rounded-md ml-[16%] w-[50%] pr-10" 
+        disabled={showAddProductForm}  
     />
     {searchTerm && (
         <span
