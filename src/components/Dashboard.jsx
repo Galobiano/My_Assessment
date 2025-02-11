@@ -13,8 +13,8 @@ function Dashboard() {
   };
 
   return (
-    <div className = "ml-[200px]">
-      <h1 className='text-right mr-[100px] mt-[20px]'>Dashboard</h1>
+    <div className = "">
+      <h1 className='text-center bg-blue'>Dashboard</h1>
       <button onClick={handleLogout}>Logout</button>
       <ProductTable  />
     </div>
