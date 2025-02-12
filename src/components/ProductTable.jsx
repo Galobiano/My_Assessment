@@ -107,28 +107,38 @@ const ProductTable = () => {
     const handleAddProductSubmit = async (event) => {
         event.preventDefault();
         try {
-            const productToSave = {
-                ...newProduct,
-                discountPercentage: newProduct.discountPercentage || 0, // Default to 0 kung wala
-            };
-    
             if (newProduct.id) {
-                const updatedProduct = await updateProduct(productToSave);
+               
+                const updatedProduct = await updateProduct(newProduct);
                 setProducts((prevProducts) =>
                     prevProducts.map((product) =>
                         product.id === updatedProduct.id ? updatedProduct : product
                     )
                 );
-                setFilteredProducts((prevProducts) => prevProducts.map((product) =>
-                    product.id === updatedProduct.id ? updatedProduct : product
-                ));
-            } else {
-                const addedProduct = await addProduct(productToSave);
+                setFilteredProducts((prevProducts) => {
+                    const updatedList = prevProducts.map((product) =>
+                        product.id === updatedProduct.id ? updatedProduct : product
+                    );
+                
+                    
+                    if (searchTerm.trim()) {
+                        return updatedList.filter((product) =>
+                            product.title.toLowerCase().includes(searchTerm.toLowerCase())
+                        );
+                    }
+                
+                    return updatedList;
+                });
+                
+            } 
+            else {
+                
+                const addedProduct = await addProduct(newProduct);
                 setProducts((prevProducts) => [addedProduct, ...prevProducts]);
                 setFilteredProducts((prevProducts) => [addedProduct, ...prevProducts]);
             }
     
-            setNewProduct({ title: '', price: '', description: '', images: [], discountPercentage: 0 });
+            setNewProduct({ id: '', title: '', price: '', description: '', images: [] });
             setShowAddProductForm(false);
         } catch (error) {
             setError(error.message);
@@ -340,14 +350,11 @@ const ProductTable = () => {
                       {product.description}
                     </td>
                     <td className="p-3 text-blue-600 font-semibold">
-    ₱{product.price}
-    {product.discountPercentage ? (
-        <div className="bg-blue-600 text-white text-xs rounded-xl px-2 py-1 mt-1 inline-block">
-            {Math.ceil(product.discountPercentage)}% Off
-        </div>
-    ) : null}
-</td>
-
+                      ₱{product.price}
+                      <div className="bg-blue-600 text-white text-xs rounded-xl px-2 py-1 mt-1 inline-block">
+                        {Math.ceil(product.discountPercentage)}% Off
+                      </div>
+                    </td>
       
                     {/* Delete & Update Buttons */}
                     <td className="p-3">

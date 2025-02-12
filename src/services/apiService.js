@@ -4,7 +4,7 @@ import axios from './baseURL';
 
 export const getProduct = async () => {
     try {
-        const response = await axios.get('products/category/smartphones');  
+        const response = await axios.get('https://dummyjson.com/products/category/smartphones');  
         console.log('List of Products:', response.data);
         return response.data;  
     } catch (error) {
@@ -37,18 +37,16 @@ export const addProduct = async (productData) => {
 };
 
 
-const handleDeleteProduct = async (id) => {
-    console.log("Deleting product with ID:", id);
+export const deleteProduct = async (productId) => {
     try {
-        await deleteProduct(id);
-        setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
-        setFilteredProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
+        const response = await axios.delete(`products/${productId}`);
+        console.log('Product deleted:', response.data);
+        return response.data;  
     } catch (error) {
-        console.error("Delete error:", error);
-        setError(error.message);
+        console.error('Error deleting product:', error);
+        throw new Error(error.message);  
     }
 };
-
 
 export const updateProduct = async (product) => {
     try {
